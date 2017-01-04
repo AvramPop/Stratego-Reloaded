@@ -11,9 +11,27 @@ public class Piece {
     private boolean isFlagOwner = false;
     private Flag flag;
 
-    public Piece(int rank, String name) {
+    public Piece(int rank) {
         this.rank = rank;
-        this.name = name;
+        switch(rank){
+            case 4:
+                this.name = "Sergeant";
+                break;
+            case 5:
+                this.name = "Lieutant";
+                break;
+            case 7:
+                this.name = "Colonel";
+                break;
+            case 8:
+                this.name = "General";
+                break;
+            default: //case 9:
+                this.name = "Marshall";
+                break;
+//            default:
+//                System.out.println("This rank does not exist");
+        }
     }
 
     public Player getOwner() {
@@ -35,6 +53,14 @@ public class Piece {
     public void takeFlag(Flag flagToTake){
         isFlagOwner = true;
         flag = flagToTake;
+    }
+
+    public boolean isFlagOwner(){
+        return isFlagOwner;
+    }
+
+    public Flag getFlag() {
+        return flag;
     }
 
     public void leaveFlag(){

@@ -3,31 +3,21 @@ package net.vompi;
 /**
  * Created by dani on 1/2/17.
  */
-public class Field {
+public abstract class Field {
     private final boolean canBeAttained;
     private boolean isEmpty = true;
     private Piece owner;
-    public char code;
+    public final char code;
     public final int x;
     public final int y;
-    public final int z;
     public final int [] horizontalDirections = {1, -1, 0, 0};
     public final int [] verticalDirections = {0, 0, 1, -1};
 
-    public Field(boolean canBeAttained, int x, int y, boolean isCenter) {
+    public Field(boolean canBeAttained, int x, int y, char code) {
         this.canBeAttained = canBeAttained;
         this.x = x;
         this.y = y;
-        if(isCenter){
-            this.z = 1;
-        } else {
-            this.z = 0;
-        }
-        if(canBeAttained){
-            this.code = '#';
-        } else {
-            this.code = '*';
-        }
+        this.code = code;
     }
 
     public boolean canBeAttained() {

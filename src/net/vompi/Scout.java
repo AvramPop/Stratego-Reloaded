@@ -4,8 +4,8 @@ package net.vompi;
  * Created by dani on 1/2/17.
  */
 public class Scout extends Piece {
-    public Scout(int rank, String name) {
-        super(rank, name);
+    public Scout() {
+        super(3, "Scout");
     }
 
     @Override

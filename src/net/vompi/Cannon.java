@@ -4,21 +4,20 @@ package net.vompi;
  * Created by dani on 1/2/17.
  */
 public class Cannon extends Piece {
-    public Cannon(int rank, String name) {
-        super(rank, name);
+    public Cannon() {
+        super(1, "Cannon");
     }
 
-    @Override
-    protected void attack(Field fieldOfPieceToAttack) {
-        if((fieldOfPieceToAttack.x == this.field.x && fieldOfPieceToAttack.y == this.field.y + 3) ||
-                (fieldOfPieceToAttack.x == this.field.x && fieldOfPieceToAttack.y == this.field.y - 3) ||
-                (fieldOfPieceToAttack.x == this.field.x + 3 && fieldOfPieceToAttack.y == this.field.y) ||
-                (fieldOfPieceToAttack.x == this.field.x - 3 && fieldOfPieceToAttack.y == this.field.y)){
-            fieldOfPieceToAttack.getOwner().goToRecycleBin();
+    public void shoot(Field fieldOfPieceToShoot){
+        if((fieldOfPieceToShoot.x == this.field.x && fieldOfPieceToShoot.y == this.field.y + 3) ||
+                (fieldOfPieceToShoot.x == this.field.x && fieldOfPieceToShoot.y == this.field.y - 3) ||
+                (fieldOfPieceToShoot.x == this.field.x + 3 && fieldOfPieceToShoot.y == this.field.y) ||
+                (fieldOfPieceToShoot.x == this.field.x - 3 && fieldOfPieceToShoot.y == this.field.y)){
+            fieldOfPieceToShoot.getOwner().goToRecycleBin();
             goToRecycleBin();
             this.getOwner().increaseKills();
         } else {
-            super.attack(fieldOfPieceToAttack);
+            super.attack(fieldOfPieceToShoot);
         }
     }
 }

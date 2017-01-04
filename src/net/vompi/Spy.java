@@ -4,8 +4,8 @@ package net.vompi;
  * Created by dani on 1/2/17.
  */
 public class Spy extends Piece {
-    public Spy(int rank, String name) {
-        super(rank, name);
+    public Spy() {
+        super(2, "Spy");
     }
 
     @Override
