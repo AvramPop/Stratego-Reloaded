@@ -13,7 +13,7 @@ public class Piece {
 
     public Piece(int rank) {
         this.rank = rank;
-        switch(rank){
+        switch (rank) {
             case 1:
                 this.name = "Cannon";
                 break;
@@ -62,12 +62,12 @@ public class Piece {
         this.owner = owner;
     }
 
-    public void takeFlag(Flag flagToTake){
+    public void takeFlag(Flag flagToTake) {
         isFlagOwner = true;
         flag = flagToTake;
     }
 
-    public boolean isFlagOwner(){
+    public boolean isFlagOwner() {
         return isFlagOwner;
     }
 
@@ -75,8 +75,8 @@ public class Piece {
         return flag;
     }
 
-    public void leaveFlagAndMove(Field fieldToMoveIn){
-        if(this.isFlagOwner) {
+    public void leaveFlagAndMove(Field fieldToMoveIn) {
+        if (this.isFlagOwner) {
             boolean success = false;
             try {
                 move(fieldToMoveIn);
@@ -92,8 +92,8 @@ public class Piece {
         }
     }
 
-    public void move(Field fieldToMoveIn) throws IllegalArgumentException{
-        if(fieldToMoveIn.isInProximity(field)) {
+    public void move(Field fieldToMoveIn) throws IllegalArgumentException {
+        if (fieldToMoveIn.isInProximity(field)) {
             moveActually(fieldToMoveIn);
         } else {
             throw new IllegalArgumentException("Cannot move to that field, because it is not in your proximity.");
@@ -103,7 +103,7 @@ public class Piece {
     protected void moveActually(Field fieldToMoveIn) {
         if (fieldToMoveIn.isEmpty()) {
             fieldToMoveIn.occupy(this);
-            if(fieldToMoveIn.hasFlag()){
+            if (fieldToMoveIn.hasFlag()) {
                 this.takeFlag(fieldToMoveIn.getFlag());
                 fieldToMoveIn.setFlag(null);
             }
@@ -120,10 +120,10 @@ public class Piece {
         this.field = field;
     }
 
-    protected void attack(Field fieldOfPieceToAttack){
+    protected void attack(Field fieldOfPieceToAttack) {
         System.out.println("You have attacked a " + fieldOfPieceToAttack.getOwner().getName() +
                 "(rank " + fieldOfPieceToAttack.getOwner().getRank() + ")");
-        if(this.rank > fieldOfPieceToAttack.getOwner().getRank()){
+        if (this.rank > fieldOfPieceToAttack.getOwner().getRank()) {
             this.move(fieldOfPieceToAttack);
             this.field = fieldOfPieceToAttack;
             fieldOfPieceToAttack.getOwner().getOwner().addToRecycleBin(fieldOfPieceToAttack.getOwner());
@@ -131,7 +131,7 @@ public class Piece {
             System.out.println("You have won the fight");
             System.out.println("You have successfully moved to field ("
                     + fieldOfPieceToAttack.x + " ," + fieldOfPieceToAttack.y + ")");
-        } else if(this.rank < fieldOfPieceToAttack.getOwner().getRank()){
+        } else if (this.rank < fieldOfPieceToAttack.getOwner().getRank()) {
             goToRecycleBin();
             System.out.println("You have lost the fight");
             fieldOfPieceToAttack.getOwner().getOwner().increaseKills();
@@ -142,7 +142,30 @@ public class Piece {
         }
     }
 
-    protected void goToRecycleBin(){
+    protected void goToRecycleBin() {
         owner.addToRecycleBin(this);
+    }
+
+    public String getCode() {
+        String initialColor = findPieceOwnerColor();
+        StringBuilder stringBuilder = new StringBuilder(String.valueOf(this.getRank()));
+        stringBuilder.append(initialColor);
+        return stringBuilder.toString();
+    }
+
+    private String findPieceOwnerColor() {
+        switch (this.getOwner().color) {
+            case "Red":
+                return "R";
+            case "Blue":
+                return "B";
+            case "Yellow":
+                return "Y";
+            case "Green":
+                return "G";
+            default:
+                System.err.println("Your piece owner does not have a valid color!");
+                return null;
+        }
     }
 }

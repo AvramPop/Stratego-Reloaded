@@ -12,7 +12,7 @@ public class Main {
     static Field map [][] = new Field[16][16];
     static int numberOfPlayers;
 
-
+    //red dreapta green stanga yellow jos blue sus
     public static void main(String[] args) throws FileNotFoundException {
         initialisations();
         pieceArrangementPhase();
@@ -34,14 +34,14 @@ public class Main {
         }
     }
 
-    private static void pieceArrangementPhase() {
+    private static void pieceArrangementPhase() throws FileNotFoundException {
         for(Player p : players){
             arrangePieces(p);
 }
     }
 
     private static void initialisations() throws FileNotFoundException {
-        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/data.txt"));
+        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/players.txt"));
         numberOfPlayers = Integer.parseInt(fileScanner.nextLine());
         createPlayers(numberOfPlayers);
         createMapFor(numberOfPlayers);
@@ -49,7 +49,7 @@ public class Main {
     }
 
     private static void createPlayers(int numberOfPlayers) throws FileNotFoundException {
-        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/data.txt"));
+        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/players.txt"));
         fileScanner.nextLine();
         while(numberOfPlayers > 0){
             Player player = new Player(fileScanner.nextLine(), fileScanner.nextLine());
@@ -63,7 +63,11 @@ public class Main {
         PrintWriter out = new PrintWriter("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/Map.txt");
         for(int i = 0; i < 15; i++){
             for(int j = 0; j < 15; j++){
-                out.print(map[i][j].code + " ");
+                if(map[i][j].isEmpty()){
+                    out.print(map[i][j].code + " ");
+                } else {
+                    out.print(map[i][j].getOwner().getCode());
+                }
             }
             out.print('\n');
         }
@@ -75,15 +79,21 @@ public class Main {
         map = board.data;
     }
 
-    private static void arrangePieces(Player player){
+    private static void arrangePieces(Player player) throws FileNotFoundException {
+        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/pieces.txt"));
+        fileScanner.nextLine();
+        int x, y;
         for(Piece piece : player.pieces){
-            System.out.println("Place your " + piece.getName() + " please");
-            Field fieldToPutPieceIn = new NormalAttainableField(5, 1);
+          //  System.out.println("Place your " + piece.getName() + " please");
+            x = fileScanner.nextInt();
+            y = fileScanner.nextInt();
+            Field fieldToPutPieceIn = new NormalAttainableField(x, y);
             if(fieldIsAvailableForPlayer(fieldToPutPieceIn, player)) {
                 player.putPiece(piece, fieldToPutPieceIn);
-                player.pieces.remove(piece);
+                //player.pieces.remove(piece);
+                System.out.println(player.name + "'s " + piece.getName() + " has been successfully placed at field (" + x + ", " + y + ")");
             } else {
-                System.out.println("This place cannot be used by the " + player.color + " as a starting point");
+                System.out.println("(" + x + ", " + y + ")" + " cannot be used by the " + player.color + " player as a starting point");
             }
         }
     }

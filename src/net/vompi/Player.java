@@ -36,8 +36,8 @@ public class Player {
                 MAXIMUM_START_X = 10;
                 MINIMUM_START_Y = 12;
                 MAXIMUM_START_Y = 14;
-                RESURRECTION_X = 13;
-                RESURRECTION_Y = 7;
+                RESURRECTION_X = 7;
+                RESURRECTION_Y = 13;
                 break;
             case "Blue":
                 MINIMUM_START_X = 0;
@@ -48,12 +48,12 @@ public class Player {
                 RESURRECTION_Y = 7;
                 break;
             case "Yellow":
-                MINIMUM_START_X = 4;
-                MAXIMUM_START_X = 10;
-                MINIMUM_START_Y = 12;
-                MAXIMUM_START_Y = 14;
-                RESURRECTION_X = 7;
-                RESURRECTION_Y = 13;
+                MINIMUM_START_X = 12;
+                MAXIMUM_START_X = 14;
+                MINIMUM_START_Y = 4;
+                MAXIMUM_START_Y = 10;
+                RESURRECTION_X = 13;
+                RESURRECTION_Y = 7;
                 break;
             default: //"Green":
                 MINIMUM_START_X = 4;
