@@ -5,7 +5,7 @@ package net.vompi;
  */
 public class Scout extends Piece {
     public Scout() {
-        super(3, "Scout");
+        super(3);
     }
 
     @Override

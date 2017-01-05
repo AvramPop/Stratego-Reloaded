@@ -6,7 +6,7 @@ package net.vompi;
 public class Captain extends Piece {
 
     public Captain() {
-        super(6, "Captain");
+        super(6);
     }
 
     @Override

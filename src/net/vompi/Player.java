@@ -20,12 +20,12 @@ public class Player {
     public final int NUMBER_OF_CANNONS = 2;
     public final int NUMBER_OF_SPIES = 1;
     public final int NUMBER_OF_SCOUTS = 4;
-    public final int NUMBER_OF_SERGENTS = 3;
-    public final int NUMBER_OF_LIEUTANTS = 3;
+    public final int NUMBER_OF_SERGEANTS = 3;
+    public final int NUMBER_OF_LIEUTENANTS = 3;
     public final int NUMBER_OF_CAPTAINS = 3;
     public final int NUMBER_OF_COLONELS = 2;
     public final int NUMBER_OF_GENERALS = 1;
-    public final int NUMBER_OF_MARSHALLS = 1;
+    public final int NUMBER_OF_MARSHALS = 1;
 
     public Player(String name, String color) {
         this.name = name;
@@ -123,9 +123,9 @@ public class Player {
             case 3:
                 return numberInGarbage < NUMBER_OF_SCOUTS;
             case 4:
-                return numberInGarbage < NUMBER_OF_SERGENTS;
+                return numberInGarbage < NUMBER_OF_SERGEANTS;
             case 5:
-                return numberInGarbage < NUMBER_OF_LIEUTANTS;
+                return numberInGarbage < NUMBER_OF_LIEUTENANTS;
             case 6:
                 return numberInGarbage < NUMBER_OF_CAPTAINS;
             case 7:
@@ -133,7 +133,7 @@ public class Player {
             case 8:
                 return numberInGarbage < NUMBER_OF_GENERALS;
             case 9:
-                return numberInGarbage < NUMBER_OF_MARSHALLS;
+                return numberInGarbage < NUMBER_OF_MARSHALS;
             default:
                 return false;
         }
@@ -143,12 +143,12 @@ public class Player {
         Piece cannon = new Cannon();
         Piece spy = new Spy();
         Piece scout = new Scout();
-        Piece sergeant = new Piece(4, "Sergeant");
-        Piece lieutant = new Piece(5, "Lieutant");
+        Piece sergeant = new Piece(4);
+        Piece lieutenant = new Piece(5);
         Piece captain = new Captain();
-        Piece colonel = new Piece(7, "Colonel");
-        Piece general = new Piece(8, "General");
-        Piece marshall = new Piece(9, "Marshall");
+        Piece colonel = new Piece(7);
+        Piece general = new Piece(8);
+        Piece marshall = new Piece(9);
 
         pieces.add(cannon);
         pieces.add(cannon);
@@ -160,9 +160,9 @@ public class Player {
         pieces.add(sergeant);
         pieces.add(sergeant);
         pieces.add(sergeant);
-        pieces.add(lieutant);
-        pieces.add(lieutant);
-        pieces.add(lieutant);
+        pieces.add(lieutenant);
+        pieces.add(lieutenant);
+        pieces.add(lieutenant);
         pieces.add(captain);
         pieces.add(captain);
         pieces.add(captain);

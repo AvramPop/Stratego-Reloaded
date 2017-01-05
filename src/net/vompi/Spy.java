@@ -5,7 +5,7 @@ package net.vompi;
  */
 public class Spy extends Piece {
     public Spy() {
-        super(2, "Spy");
+        super(2);
     }
 
     @Override

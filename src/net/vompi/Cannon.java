@@ -5,7 +5,7 @@ package net.vompi;
  */
 public class Cannon extends Piece {
     public Cannon() {
-        super(1, "Cannon");
+        super(1);
     }
 
     public void shoot(Field fieldOfPieceToShoot){

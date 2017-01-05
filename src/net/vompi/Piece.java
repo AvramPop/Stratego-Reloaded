@@ -14,11 +14,23 @@ public class Piece {
     public Piece(int rank) {
         this.rank = rank;
         switch(rank){
+            case 1:
+                this.name = "Cannon";
+                break;
+            case 2:
+                this.name = "Spy";
+                break;
+            case 3:
+                this.name = "Scout";
+                break;
             case 4:
                 this.name = "Sergeant";
                 break;
             case 5:
-                this.name = "Lieutant";
+                this.name = "Lieutenant";
+                break;
+            case 6:
+                this.name = "Captain";
                 break;
             case 7:
                 this.name = "Colonel";
