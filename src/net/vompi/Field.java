@@ -6,6 +6,7 @@ package net.vompi;
 public abstract class Field {
     private final boolean canBeAttained;
     private boolean isEmpty = true;
+    private Flag flag;
     private Piece owner;
     public final char code;
     public final int x;
@@ -18,6 +19,7 @@ public abstract class Field {
         this.x = x;
         this.y = y;
         this.code = code;
+        flag = null;
     }
 
     public boolean canBeAttained() {
@@ -33,9 +35,25 @@ public abstract class Field {
         return isEmpty;
     }
 
-    public void free(){
+    public void freeField(){
         isEmpty = true;
         owner = null;
+    }
+
+    public void setFlag(Flag flag) {
+        this.flag = flag;
+    }
+
+    public Flag getFlag() {
+        return flag;
+    }
+
+    public boolean hasFlag(){
+        if(this.flag != null){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Piece getOwner() {

@@ -75,20 +75,38 @@ public class Piece {
         return flag;
     }
 
-    public void leaveFlag(){
-        isFlagOwner = false;
-        flag = null;
+    public void leaveFlagAndMove(Field fieldToMoveIn){
+        if(this.isFlagOwner) {
+            boolean success = false;
+            try {
+                move(fieldToMoveIn);
+                success = true;
+            } catch (Exception e) {
+                System.out.println("Cannot move to field. It is not in your proximity!");
+            }
+            if (success) {
+                fieldToMoveIn.setFlag(this.flag);
+                isFlagOwner = false;
+                flag = null;
+            }
+        }
     }
 
-    public void move(Field fieldToMoveIn){
+    public void move(Field fieldToMoveIn) throws IllegalArgumentException{
         if(fieldToMoveIn.isInProximity(field)) {
             moveActually(fieldToMoveIn);
+        } else {
+            throw new IllegalArgumentException("Cannot move to that field, because it is not in your proximity.");
         }
     }
 
     protected void moveActually(Field fieldToMoveIn) {
         if (fieldToMoveIn.isEmpty()) {
             fieldToMoveIn.occupy(this);
+            if(fieldToMoveIn.hasFlag()){
+                this.takeFlag(fieldToMoveIn.getFlag());
+                fieldToMoveIn.setFlag(null);
+            }
             this.field = fieldToMoveIn;
             System.out.println("You have successfully moved to field (" + fieldToMoveIn.x + " ," + fieldToMoveIn.y + ")");
         } else if (fieldToMoveIn.getOwner().getOwner() == this.owner) {

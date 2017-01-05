@@ -14,21 +14,38 @@ public class Main {
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/data.txt"));
-        numberOfPlayers = Integer.parseInt(fileScanner.nextLine());
-	    createPlayers(numberOfPlayers);
-	    createMapFor(numberOfPlayers);
-	    printMap();
-	    for(Player p : players){
-	        arrangePieces(p);
-        }
-        while(/*(CenterField)(NormalAttainableField)map[7][7].hasBeenConquered()*/ true){
+        initialisations();
+        pieceArrangementPhase();
+        theGameItself();
+        theFinal();
+    }
+
+    private static void theFinal(){
+        System.out.println("The player: " + /*map[7][7].getOwner().getOwner().name + */" has won!");
+    }
+
+    private static void theGameItself() {
+        while(((CenterField)map[7][7]).hasBeenConquered()){
 	        for(Player p : players){
 	            Field field = new NormalAttainableField(5, 5);
 	            Piece piece = new Piece(5);
 	            p.movePiece(piece, field);
             }
         }
+    }
+
+    private static void pieceArrangementPhase() {
+        for(Player p : players){
+            arrangePieces(p);
+}
+    }
+
+    private static void initialisations() throws FileNotFoundException {
+        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/data.txt"));
+        numberOfPlayers = Integer.parseInt(fileScanner.nextLine());
+        createPlayers(numberOfPlayers);
+        createMapFor(numberOfPlayers);
+        printMap();
     }
 
     private static void createPlayers(int numberOfPlayers) throws FileNotFoundException {
