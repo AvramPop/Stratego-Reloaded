@@ -41,7 +41,7 @@ public class Main {
     }
 
     private static void initialisations() throws FileNotFoundException {
-        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/players.txt"));
+        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/players.in"));
         numberOfPlayers = Integer.parseInt(fileScanner.nextLine());
         createPlayers(numberOfPlayers);
         createMapFor(numberOfPlayers);
@@ -49,7 +49,7 @@ public class Main {
     }
 
     private static void createPlayers(int numberOfPlayers) throws FileNotFoundException {
-        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/players.txt"));
+        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/players.in"));
         fileScanner.nextLine();
         while(numberOfPlayers > 0){
             Player player = new Player(fileScanner.nextLine(), fileScanner.nextLine());
@@ -60,7 +60,7 @@ public class Main {
     }
 
     private static void printMap() throws FileNotFoundException {
-        PrintWriter out = new PrintWriter("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/Map.txt");
+        PrintWriter out = new PrintWriter("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/Map.out");
         for(int i = 0; i < 15; i++){
             for(int j = 0; j < 15; j++){
                 if(map[i][j].isEmpty()){
@@ -80,7 +80,7 @@ public class Main {
     }
 
     private static void arrangePieces(Player player) throws FileNotFoundException {
-        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/pieces.txt"));
+        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/pieces.in"));
         fileScanner.nextLine();
         int x, y;
         for(Piece piece : player.pieces){
