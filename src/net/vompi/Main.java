@@ -12,10 +12,10 @@ public class Main {
     static Field map [][] = new Field[16][16];
     static int numberOfPlayers;
 
-    //red dreapta green stanga yellow jos blue sus
     public static void main(String[] args) throws FileNotFoundException {
         initialisations();
         pieceArrangementPhase();
+        printMap();
         theGameItself();
         theFinal();
     }
@@ -25,19 +25,42 @@ public class Main {
     }
 
     private static void theGameItself() {
-        while(((CenterField)map[7][7]).hasBeenConquered()){
+        Scanner keyboard = new Scanner(System.in);
+        int xToMoveFrom = -1;
+        int yToMoveFrom = -1;
+        int xToMoveTo = -1;
+        int yToMoveTo = -1;
+        boolean successfulInput;
+        Field testFieldFrom;
+
+        while(!((CenterField)map[7][7]).hasBeenConquered()){
 	        for(Player p : players){
-	            Field field = new NormalAttainableField(5, 5);
-	            Piece piece = new Piece(5);
-	            p.movePiece(piece, field);
+	            successfulInput = false;
+	            while(!successfulInput) {
+                    System.out.println("The " + p.color + " player's turn. Please move");
+                    System.out.println("Please insert the coordinates of the field you want to move your piece from:");
+                    xToMoveFrom = keyboard.nextInt();
+                    yToMoveFrom = keyboard.nextInt();
+                    System.out.println("Please insert the coordinates of the field you want to move your piece to:");
+                    xToMoveTo = keyboard.nextInt();
+                    yToMoveTo = keyboard.nextInt();
+                    testFieldFrom = new NormalAttainableField(xToMoveFrom, yToMoveFrom);
+                    if(testFieldFrom.getOwner().getOwner() == p){
+                        successfulInput = true;
+                    }
+                }
+	            p.movePiece(map[xToMoveFrom][yToMoveFrom], map[xToMoveTo][yToMoveTo]);
             }
         }
     }
 
     private static void pieceArrangementPhase() throws FileNotFoundException {
+        PrintWriter out = new PrintWriter("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/AddingPieces.out");
+        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/pieces.in"));
         for(Player p : players){
-            arrangePieces(p);
-}
+            arrangePieces(p, out, fileScanner);
+        }
+        out.close();
     }
 
     private static void initialisations() throws FileNotFoundException {
@@ -65,8 +88,9 @@ public class Main {
             for(int j = 0; j < 15; j++){
                 if(map[i][j].isEmpty()){
                     out.print(map[i][j].code + " ");
+                  //  System.out.println("empty");
                 } else {
-                    out.print(map[i][j].getOwner().getCode());
+                    out.print(map[i][j].getOwner().getCode() + " ");
                 }
             }
             out.print('\n');
@@ -79,29 +103,54 @@ public class Main {
         map = board.data;
     }
 
-    private static void arrangePieces(Player player) throws FileNotFoundException {
-        Scanner fileScanner = new Scanner(new File("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/pieces.in"));
-        fileScanner.nextLine();
+    private static void arrangePieces(Player player, PrintWriter out, Scanner fileScanner) throws FileNotFoundException {
         int x, y;
+
         for(Piece piece : player.pieces){
           //  System.out.println("Place your " + piece.getName() + " please");
             x = fileScanner.nextInt();
             y = fileScanner.nextInt();
-            Field fieldToPutPieceIn = new NormalAttainableField(x, y);
-            if(fieldIsAvailableForPlayer(fieldToPutPieceIn, player)) {
-                player.putPiece(piece, fieldToPutPieceIn);
-                //player.pieces.remove(piece);
-                System.out.println(player.name + "'s " + piece.getName() + " has been successfully placed at field (" + x + ", " + y + ")");
+            if(fieldIsAvailableForPlayer(map[x][y], player, out)) {
+                player.putPiece(piece, map[x][y]);
+                printSuccessOfAddingPiece(player, x, y, piece, out);
             } else {
-                System.out.println("(" + x + ", " + y + ")" + " cannot be used by the " + player.color + " player as a starting point");
+                printFailureOfAddingPiece(player, x, y, out);
             }
         }
+        player.pieces.clear();
     }
 
-    private static boolean fieldIsAvailableForPlayer(Field fieldToPutPieceIn, Player player){
-        return (fieldToPutPieceIn.x >= player.MINIMUM_START_X && fieldToPutPieceIn.y >= player.MINIMUM_START_Y
-                && fieldToPutPieceIn.x <= player.MAXIMUM_START_X && fieldToPutPieceIn.y <= player.MAXIMUM_START_Y
-                && fieldToPutPieceIn.isEmpty()
-                && fieldToPutPieceIn.x != player.RESURRECTION_X && fieldToPutPieceIn.y != player.RESURRECTION_Y);
+    private static void printFailureOfAddingPiece(Player player, int x, int y, PrintWriter out) throws FileNotFoundException{
+        out.println("(" + x + ", " + y + ")" + " cannot be used by the " + player.color + " player as a starting point");
+    }
+
+    private static void printSuccessOfAddingPiece(Player player, int x, int y, Piece piece, PrintWriter out) throws  FileNotFoundException{
+        out.println(player.name + "'s " + piece.getName() + " has been successfully placed at field (" + x + ", " + y + ")");
+    }
+
+    private static boolean fieldIsAvailableForPlayer(Field fieldToPutPieceIn, Player player, PrintWriter out) throws FileNotFoundException{
+        if(!(fieldToPutPieceIn.x >= player.MINIMUM_START_X && fieldToPutPieceIn.x <= player.MAXIMUM_START_X)) {
+            out.println("The field of coordinates (" + fieldToPutPieceIn.x + ", " + fieldToPutPieceIn.y
+                        + ") is not okay for the " + player.color + " to add his piece in. X wrong!");
+            return false;
+        }
+
+        if(!(fieldToPutPieceIn.y >= player.MINIMUM_START_Y && fieldToPutPieceIn.y <= player.MAXIMUM_START_Y)){
+            out.println("The field of coordinates (" + fieldToPutPieceIn.x + ", " + fieldToPutPieceIn.y
+                        + ") is not okay for the " + player.color + " to add his piece in. Y wrong!");
+            return false;
+        }
+
+        if(!fieldToPutPieceIn.isEmpty()){
+            out.println("The field of coordinates (" + fieldToPutPieceIn.x + ", " + fieldToPutPieceIn.y + ") is not empty!");
+            return false;
+        }
+
+        if(fieldToPutPieceIn.x == player.RESURRECTION_X && fieldToPutPieceIn.y == player.RESURRECTION_Y){
+            out.println("Cannot add a piece to the resurrection field");
+            return false;
+        }
+
+        return true;
     }
 }

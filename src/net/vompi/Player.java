@@ -100,12 +100,22 @@ public class Player {
         }
     }
 
-    public void movePiece(Piece pieceToMove, Field fieldToMovePieceIn){
-        if(hasPieceAlive(pieceToMove)){
-            pieceToMove.move(fieldToMovePieceIn);
-        } else {
-            System.out.println(this.color + " has not any " + pieceToMove.getName() + " alive!");
+    public void movePiece(Field fieldToMovePieceFrom, Field fieldToMovePieceIn) {
+        if(fieldToMovePieceIn.canBeAttained()) {
+            if (!fieldToMovePieceFrom.isEmpty() && fieldToMovePieceFrom.getOwner().getOwner() == this) {
+                Piece pieceToMove = new Piece(fieldToMovePieceFrom.getOwner().getRank());
+                if (hasPieceAlive(pieceToMove)) {
+                    pieceToMove.move(fieldToMovePieceIn);
+                } else {
+                    System.out.println(this.color + " has not any " + pieceToMove.getName() + " alive!");
+                }
+            } else {
+                System.out.println("Player " + this.name + " cannot move his piece from field (" + fieldToMovePieceFrom.x +
+                        ", " + fieldToMovePieceFrom.y + ") to field (" + fieldToMovePieceIn.x +
+                        ", " + fieldToMovePieceIn.y + ")");
+            }
         }
+
     }
 
     private boolean hasPieceAlive(Piece piece){
