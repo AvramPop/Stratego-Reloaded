@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         initialisations();
         pieceArrangementPhase();
-        printMap();
+        printMapToFile();
         theGameItself();
         theFinal();
     }
@@ -24,14 +24,13 @@ public class Main {
         System.out.println("The player: " + /*map[7][7].getOwner().getOwner().name + */" has won!");
     }
 
-    private static void theGameItself() {
+    private static void theGameItself() throws FileNotFoundException{
         Scanner keyboard = new Scanner(System.in);
         int xToMoveFrom = -1;
         int yToMoveFrom = -1;
         int xToMoveTo = -1;
         int yToMoveTo = -1;
         boolean successfulInput;
-        Field testFieldFrom;
 
         while(!((CenterField)map[7][7]).hasBeenConquered()){
 	        for(Player p : players){
@@ -44,12 +43,12 @@ public class Main {
                     System.out.println("Please insert the coordinates of the field you want to move your piece to:");
                     xToMoveTo = keyboard.nextInt();
                     yToMoveTo = keyboard.nextInt();
-                    testFieldFrom = new NormalAttainableField(xToMoveFrom, yToMoveFrom);
-                    if(testFieldFrom.getOwner().getOwner() == p){
+                    if(map[xToMoveFrom][yToMoveFrom].getOwner().getOwner() == p){
                         successfulInput = true;
                     }
                 }
 	            p.movePiece(map[xToMoveFrom][yToMoveFrom], map[xToMoveTo][yToMoveTo]);
+	            printMapToConsole();
             }
         }
     }
@@ -68,7 +67,7 @@ public class Main {
         numberOfPlayers = Integer.parseInt(fileScanner.nextLine());
         createPlayers(numberOfPlayers);
         createMapFor(numberOfPlayers);
-        printMap();
+        printMapToFile();
     }
 
     private static void createPlayers(int numberOfPlayers) throws FileNotFoundException {
@@ -82,7 +81,7 @@ public class Main {
         }
     }
 
-    private static void printMap() throws FileNotFoundException {
+    private static void printMapToFile() throws FileNotFoundException {
         PrintWriter out = new PrintWriter("/home/dani/Desktop/Stratego Reloaded/Stratego-Reloaded/data/Map.out");
         for(int i = 0; i < 15; i++){
             for(int j = 0; j < 15; j++){
@@ -96,6 +95,20 @@ public class Main {
             out.print('\n');
         }
         out.close();
+    }
+
+    private static void printMapToConsole() throws FileNotFoundException {
+        for(int i = 0; i < 15; i++){
+            for(int j = 0; j < 15; j++){
+                if(map[i][j].isEmpty()){
+                    System.out.print(map[i][j].code + " ");
+                } else {
+                    System.out.print(map[i][j].getOwner().getCode() + " ");
+                }
+            }
+            System.out.print('\n');
+        }
+        System.out.close();
     }
 
     private static void createMapFor(int numberOfPlayers){
