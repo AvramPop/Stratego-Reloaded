@@ -93,7 +93,7 @@ public class Piece {
     }
 
     public void move(Field fieldToMoveIn) throws IllegalArgumentException {
-        if (fieldToMoveIn.isInProximity(field)) {
+        if (fieldToMoveIn.isInProximity(this.field)) {
             moveActually(fieldToMoveIn);
         } else {
             throw new IllegalArgumentException("Cannot move to that field, because it is not in your proximity.");
@@ -102,13 +102,14 @@ public class Piece {
 
     protected void moveActually(Field fieldToMoveIn) {
         if (fieldToMoveIn.isEmpty()) {
+            this.field.freeField();
             fieldToMoveIn.occupy(this);
             if (fieldToMoveIn.hasFlag()) {
                 this.takeFlag(fieldToMoveIn.getFlag());
                 fieldToMoveIn.setFlag(null);
             }
             this.field = fieldToMoveIn;
-            System.out.println("You have successfully moved to field (" + fieldToMoveIn.x + " ," + fieldToMoveIn.y + ")");
+            System.out.println("You have successfully moved to field (" + fieldToMoveIn.x + ", " + fieldToMoveIn.y + ")");
         } else if (fieldToMoveIn.getOwner().getOwner() == this.owner) {
             System.out.println("Cannot move over friendly soldier");
         } else {
@@ -138,6 +139,8 @@ public class Piece {
         } else {
             goToRecycleBin();
             System.out.println("Tie. Both soldiers die!");
+            fieldOfPieceToAttack.freeField();
+            this.field.freeField();
             fieldOfPieceToAttack.getOwner().goToRecycleBin();
         }
     }

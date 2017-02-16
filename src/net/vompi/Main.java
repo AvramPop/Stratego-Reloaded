@@ -47,7 +47,7 @@ public class Main {
                         successfulInput = true;
                     }
                 }
-	            p.movePiece(map[xToMoveFrom][yToMoveFrom], map[xToMoveTo][yToMoveTo]);
+                p.movePiece(map[xToMoveFrom][yToMoveFrom], map[xToMoveTo][yToMoveTo]);
 	            printMapToConsole();
             }
         }
@@ -101,19 +101,22 @@ public class Main {
         for(int i = 0; i < 15; i++){
             for(int j = 0; j < 15; j++){
                 if(map[i][j].isEmpty()){
-                    System.out.print(map[i][j].code + " ");
+                    System.out.print(map[i][j].code + "  ");
                 } else {
                     System.out.print(map[i][j].getOwner().getCode() + " ");
                 }
             }
             System.out.print('\n');
         }
-        System.out.close();
     }
 
     private static void createMapFor(int numberOfPlayers){
         Map board = new Map(numberOfPlayers);
-        map = board.data;
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                map[i][j] = board.getField(i, j);
+            }
+        }
     }
 
     private static void arrangePieces(Player player, PrintWriter out, Scanner fileScanner) throws FileNotFoundException {

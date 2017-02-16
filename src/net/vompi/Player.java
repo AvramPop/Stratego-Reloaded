@@ -1,6 +1,7 @@
 package net.vompi;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Created by dani on 1/2/17.
@@ -96,6 +97,12 @@ public class Player {
         kills++;
         if(kills == 6){
             System.out.println("Choose a piece to resurrect");
+            /*Scanner keyboard = new Scanner(System.in);
+            int rank = keyboard.nextInt();
+            Piece piece = new Piece(rank)
+            if(recycleBin.contains(piece)){
+                resurrectPiece(piece);
+            }*/
             kills = 0;
         }
     }
@@ -104,6 +111,8 @@ public class Player {
         if(fieldToMovePieceIn.canBeAttained()) {
             if (!fieldToMovePieceFrom.isEmpty() && fieldToMovePieceFrom.getOwner().getOwner() == this) {
                 Piece pieceToMove = new Piece(fieldToMovePieceFrom.getOwner().getRank());
+                pieceToMove.setField(fieldToMovePieceFrom);
+                pieceToMove.setOwner(fieldToMovePieceFrom.getOwner().getOwner());
                 if (hasPieceAlive(pieceToMove)) {
                     pieceToMove.move(fieldToMovePieceIn);
                 } else {

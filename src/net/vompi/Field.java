@@ -63,6 +63,10 @@ public abstract class Field {
     public boolean isInProximity(Field field){
         for(int i = 0; i < 4; i++){
             if(this.x + verticalDirections[i] == field.x && this.y + horizontalDirections[i] == field.y){
+                System.out.println(this.x + verticalDirections[i]);
+                System.out.println(field.x);
+                System.out.println(this.y + horizontalDirections[i]);
+                System.out.println(field.y);
                 return true;
             }
         }

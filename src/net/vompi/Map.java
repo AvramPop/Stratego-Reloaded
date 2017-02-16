@@ -131,7 +131,11 @@ public class Map {
 
             System.out.println("Successfully generated map!");
         } else {
-            System.out.println("Not available yet");
+            System.out.println("This kind of map is not available yet");
         }
+    }
+
+    public Field getField(int i, int j){
+        return data[i][j];
     }
 }
